@@ -52,7 +52,7 @@ export default function Hero() {
   };
 
   const letterVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -107,9 +107,9 @@ export default function Hero() {
             </motion.div>
 
             {/* Name with letter animation */}
-            <motion.h1 className="mb-4 text-4xl font-semibold leading-tight tracking-tight text-zinc-50 sm:text-6xl md:text-7xl">
+            <motion.h1 className="mb-4 text-4xl font-semibold leading-tight tracking-tight text-zinc-50 sm:text-6xl md:text-7xl overflow-visible">
               <span className="sr-only">{personalInfo.name}</span>
-              <span aria-hidden="true" className="inline-flex flex-wrap">
+              <span aria-hidden="true" className="inline-flex flex-wrap overflow-visible">
                 {nameLetters.map((letter, i) => (
                   <motion.span
                     key={i}
@@ -227,7 +227,7 @@ export default function Hero() {
 
               <div className="hidden items-center gap-2 rounded-full border border-zinc-800 bg-zinc-950/70 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.22em] text-zinc-500 sm:flex">
                 <span className="h-1 w-1 rounded-full bg-emerald-400" />
-                Running multi‑agent mental‑health system · LLaMA‑70B
+                Building agentic AI systems · LLMs · Full‑Stack
               </div>
             </motion.div>
           </div>
@@ -288,19 +288,19 @@ export default function Hero() {
                     <p className="mb-1 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500">
                       Systems
                     </p>
-                    <p className="text-sm text-zinc-200">Multi‑agent chatbots</p>
+                    <p className="text-xs sm:text-sm text-zinc-200 truncate">Agentic systems</p>
                   </div>
                   <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/70 p-3">
                     <p className="mb-1 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500">
                       Interface
                     </p>
-                    <p className="text-sm text-zinc-200">Full‑stack web</p>
+                    <p className="text-xs sm:text-sm text-zinc-200 truncate">Full‑stack web</p>
                   </div>
                   <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/70 p-3">
                     <p className="mb-1 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500">
                       Domain
                     </p>
-                    <p className="text-sm text-zinc-200">Research & Health</p>
+                    <p className="text-xs sm:text-sm text-zinc-200 truncate">Research tools</p>
                   </div>
                 </div>
 
