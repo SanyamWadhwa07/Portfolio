@@ -16,7 +16,7 @@ export const education = [
   {
     institution: "Thapar Institute of Engineering and Technology",
     degree: "B.E. Computer Engineering",
-    period: "August 2023 — Expected 2027",
+    period: "August 2023 to Expected 2027",
     location: "Patiala, Punjab",
   },
 ];
@@ -35,11 +35,11 @@ export const experiences = [
     id: 1,
     company: "COE-UQ, TIET",
     role: "Student Intern",
-    period: "June 2025 — Jan 2026",
+    period: "June 2025 to Jan 2026",
     location: "On Site",
     description: [
       "Built hybrid agentic mental-health chatbot with modular agents (safety, emotion, sentiment, trend), orchestrated via a Controller LLM with deterministic routing and guardrail enforcement.",
-      "Implemented responsible AI mechanisms including safety filters, risk-aware escalation, and prompt constraints — improving reliability, ethical compliance, and response stability under sensitive scenarios.",
+      "Implemented responsible AI mechanisms including safety filters, risk-aware escalation, and prompt constraints, improving reliability, ethical compliance, and response stability under sensitive scenarios.",
     ],
     tech: ["LLaMA-70B", "Agentic AI", "NLP", "Python"],
   },
@@ -47,10 +47,10 @@ export const experiences = [
     id: 2,
     company: "TIET, Patiala",
     role: "Student Intern",
-    period: "Feb 2025 — Nov 2025",
+    period: "Feb 2025 to Nov 2025",
     location: "On Site",
     description: [
-      "Engineered a full-stack Thapar Datesheet Generator using Flask, MySQL, and Jinja, integrating multithreading to automate end-to-end schedule generation — reducing processing time by 3x vs legacy workflows.",
+      "Engineered a full-stack Thapar Datesheet Generator using Flask, MySQL, and Jinja, integrating multithreading to automate end-to-end schedule generation, reducing processing time by 3x vs legacy workflows.",
       "Incorporated features like subject swapping, room swapping, and real-time resolution of room, faculty, and seating constraints.",
     ],
     tech: ["Flask", "MySQL", "Jinja", "Python", "Multithreading"],
@@ -114,16 +114,16 @@ export const projects = [
   },
   {
     id: 4,
-    title: "CIRCULCA",
-    subtitle: "AI Sustainability LCA Dashboard",
+    title: "GarudaAI",
+    subtitle: "Local LLM Setup and Remote Access CLI",
     description:
-      "React dashboard for an AI-driven Life Cycle Assessment tool focused on sustainability in metallurgy and mining — environmental metrics, material flow visualization, and circularity scoring.",
+      "Linux CLI tool that profiles GPU specs, determines which local LLMs can run efficiently on the hardware, installs Ollama with the optimal model, and exposes a remote-access endpoint reachable from any phone on the network.",
     highlights: [
-      "Environmental metrics tracking, material flow visualization, and circularity scoring",
-      "AI-generated sustainability recommendations with 94%+ confidence accuracy",
+      "GPU profiling pipeline that matches VRAM and compute against model quantization requirements to recommend the best-fit local LLM",
+      "One-command setup: installs Ollama, pulls the right model, and tunnels a mobile-accessible endpoint for on-the-go inference",
     ],
-    tech: ["React", "TypeScript", "Chart.js", "Recharts", "Tailwind CSS"],
-    github: "https://github.com/SanyamWadhwa07/CIRCULCA",
+    tech: ["Python", "Ollama", "Linux", "Shell", "LLM"],
+    github: "https://github.com/SanyamWadhwa07/GarudaAI",
     demo: null,
     date: "2025",
     color: "#34d399",
@@ -176,7 +176,7 @@ export const achievements = [
     date: "March 2026",
     location: "Patiala",
     description:
-      "Won Samsung's PRISM hackathon for building KONTA — a Chrome extension for personal knowledge management using semantic embeddings and the Louvain community detection algorithm.",
+      "Won Samsung's PRISM hackathon for building KONTA toa Chrome extension for personal knowledge management using semantic embeddings and the Louvain community detection algorithm.",
     project: "KONTA",
   },
   {
@@ -195,7 +195,7 @@ export const positions = [
   {
     role: "Event Management & Technical Coordinator",
     organization: "Microsoft Learn Student Chapter",
-    period: "August 2023 — April 2025",
+    period: "August 2023 to April 2025",
     location: "Patiala, Punjab",
     highlights: [
       "Led a team of 10+ members across open-source projects and chapter initiatives",
@@ -205,9 +205,9 @@ export const positions = [
   },
 ];
 
-export const aboutMe = `I'm a Computer Engineering student at Thapar Institute, building at the intersection of AI research and production systems. My work spans agentic AI architectures, LLM optimization, and full-stack engineering — always aimed at making intelligent tools that researchers and developers actually want to use.
+export const aboutMe = `I'm a Computer Engineering student at Thapar Institute, building at the intersection of AI research and production systems. My work spans agentic AI architectures, LLM optimization, and full-stack engineering toalways aimed at making intelligent tools that researchers and developers actually want to use.
 
-I've built mental-health chatbots with quantized LLaMA-70B, AI memory systems for coding agents, and research paper intelligence tools — all shipped and working. If it can be made smarter or more autonomous, I'm interested in it.
+I've built mental-health chatbots with quantized LLaMA-70B, AI memory systems for coding agents, and research paper intelligence tools toall shipped and working. If it can be made smarter or more autonomous, I'm interested in it.
 
 Outside of building, I coordinate technical events at MLSC Thapar and explore cutting-edge papers in NLP and multi-agent systems.`;
 

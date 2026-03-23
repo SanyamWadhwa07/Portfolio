@@ -15,7 +15,7 @@ export default function Experience() {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-4 mb-14"
         >
-          <span className="section-label">04 &mdash; Experience</span>
+          <span className="section-label">04 / Experience</span>
           <span className="h-px flex-1" style={{ background: "var(--border)" }} />
         </motion.div>
 

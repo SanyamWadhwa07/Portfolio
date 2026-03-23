@@ -1,28 +1,33 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono, Syne } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
 import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Footer from "@/components/ui/Footer";
 
-const ibmPlexSans = IBM_Plex_Sans({
+/* Inter — highly legible, WCAG-friendly, excellent at all sizes */
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 const syne = Syne({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -44,14 +49,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} ${syne.variable} font-sans antialiased`}
+        className={`${inter.variable} ${ibmPlexMono.variable} ${syne.variable} font-sans antialiased`}
       >
         <ThemeProvider>
-          <CustomCursor />
-          <ScrollProgress />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <SmoothScroll>
+            <CustomCursor />
+            <ScrollProgress />
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>

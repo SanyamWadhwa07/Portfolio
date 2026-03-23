@@ -309,8 +309,9 @@ export default function TerminalHero() {
         style={{ background: "radial-gradient(ellipse 70% 100% at 50% 0%, var(--accent-dim) 0%, transparent 100%)" }}
       />
 
-      <div className="section-container relative z-10 pt-24 pb-16" style={{ position: "relative", zIndex: 10 }}>
-        <div className="grid lg:grid-cols-[1fr_460px] xl:grid-cols-[1fr_520px] gap-10 xl:gap-14 items-center min-h-[calc(100vh-160px)]">
+      <div className="relative z-10" style={{ minHeight: "100vh", display: "flex", alignItems: "center" }}>
+        <div className="section-container w-full">
+        <div style={{ maxWidth: "clamp(460px, 48%, 680px)" }}>
 
           {/* Left */}
           <div className="flex flex-col justify-center">
@@ -372,7 +373,7 @@ export default function TerminalHero() {
               style={{ color: "var(--text-muted)", maxWidth: "460px" }}
             >
               {personalInfo.tagline} Agentic AI, LLM optimization, multi-agent
-              architectures &mdash; shipped and working in production.
+              architectures, shipped and working in production.
             </motion.p>
 
             {/* CTAs */}
@@ -449,18 +450,60 @@ export default function TerminalHero() {
               ))}
             </motion.div>
           </div>
+        </div>
+        </div>
 
-          {/* Right: Code Showcase */}
+        {/* Right: Code Showcase — absolutely positioned, fully decoupled from left column */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="hidden lg:block"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "clamp(32px, 5vw, 80px)",
+            transform: "translateY(-50%)",
+            perspective: "1200px",
+            willChange: "opacity",
+            zIndex: 10,
+          }}
+        >
           <motion.div
-            initial={{ opacity: 0, x: 24, scale: 0.97 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:flex flex-col"
-            style={{ height: "520px" }}
+            whileHover={{ rotateY: -2, rotateX: 0, transition: { duration: 0.45, ease: "easeOut" } }}
+            style={{
+              width: "clamp(380px, 32vw, 500px)",
+              height: "clamp(420px, 46vh, 530px)",
+              transform: "perspective(1200px) rotateY(-10deg) rotateX(3deg)",
+              transformStyle: "preserve-3d",
+              filter: "drop-shadow(0 28px 55px rgba(0,0,0,0.38)) drop-shadow(0 0 36px rgba(0,232,198,0.07))",
+              cursor: "default",
+              willChange: "transform",
+            }}
           >
+            {/* Right depth edge */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: 6, right: -10, bottom: -6, width: 10,
+                background: "linear-gradient(to right, rgba(0,232,198,0.05), rgba(0,0,0,0.28))",
+                borderRadius: "0 4px 4px 0",
+              }}
+            />
+            {/* Bottom depth edge */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                bottom: -8, left: 6, right: -4, height: 8,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.32), rgba(0,0,0,0.08))",
+                borderRadius: "0 0 4px 4px",
+              }}
+            />
             <CodeShowcase />
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll cue */}
