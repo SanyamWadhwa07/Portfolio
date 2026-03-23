@@ -31,13 +31,19 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Sanyam Wadhwa — AI/ML Engineer & Full-Stack Developer",
+  title: "Sanyam Wadhwa / AI & ML Engineer",
   description:
-    "Portfolio of Sanyam Wadhwa — AI/ML Engineer and Full-Stack Developer building intelligent systems at the intersection of research and production.",
+    "Portfolio of Sanyam Wadhwa, AI/ML Engineer and Full-Stack Developer building intelligent systems at the intersection of research and production.",
   keywords: ["AI Engineer", "ML Engineer", "Full-Stack Developer", "React", "Next.js", "Python", "LLM", "RAG", "Agentic AI"],
   authors: [{ name: "Sanyam Wadhwa" }],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/icon.svg",
+  },
   openGraph: {
-    title: "Sanyam Wadhwa — AI/ML Engineer & Full-Stack Developer",
+    title: "Sanyam Wadhwa / AI & ML Engineer",
     description: "Building intelligent systems at the intersection of research and production.",
     type: "website",
   },
