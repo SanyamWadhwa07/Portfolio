@@ -174,7 +174,7 @@ export const projects = [
     tech: ["Python", "Ollama", "Linux", "Shell", "LLM"],
     github: "https://github.com/SanyamWadhwa07/GarudaAI",
     demo: null,
-    date: "2025",
+    date: "January 2026",
     color: "#34d399",
     colorLight: "#047857",
     award: null,
@@ -182,6 +182,37 @@ export const projects = [
   },
   {
     id: 5,
+    title: "CogniRecycle",
+    subtitle: "Smart City Waste AI",
+    description:
+      "Real-time AI waste sorting and contamination detection system for smart cities, using a dual-agent YOLOv8 pipeline to classify waste, flag contamination, and track environmental impact through a live React dashboard.",
+    highlights: [
+      "Dual-agent YOLOv8 pipeline: two independent agents classify each item, disagreement auto-triggers contamination flag",
+      "WebSocket-driven live dashboard with detection feed, decision stream, analytics charts, and predictive alerts",
+    ],
+    problem:
+      "Waste contamination silently degrades recycling streams. CogniRecycle deploys two AI agents on a conveyor, cross-checks every classification, and routes each item in real time, catching contamination before it spreads.",
+    metrics: ["99.2% accuracy", "1,200+ items/hour", "45 kg CO2 saved/day", "$178 recovery value/day"],
+    architecture: "YOLOv8 Camera Feed → Dual-Agent Classifier (Agent A + Agent B) → Contamination Detector → Decision Router (Recyclable / Organic / Hazardous / Landfill) → FastAPI WebSocket → React Live Dashboard",
+    keyFeatures: [
+      "Dual-agent disagreement protocol: 20% simulated variance triggers automatic contamination alert",
+      "10-class waste detection: plastic, glass, metal, paper, cardboard, organic, food, battery, chemical, trash",
+      "Live WebSocket stream broadcasting detection events with bounding box, confidence, and routing decision",
+      "Analytics page with contamination trends, waste distribution donut, accuracy area chart, and JSON export",
+      "Optional real YOLOv8 inference via OpenCV camera capture; falls back to simulation gracefully",
+      "Docker Compose deployment with Nginx reverse proxy and ONNX/TensorRT export support",
+    ],
+    tech: ["YOLOv8", "FastAPI", "React", "TypeScript", "WebSocket", "Docker", "OpenCV"],
+    github: "https://github.com/SanyamWadhwa07/smart-city-waste-ai",
+    demo: null,
+    date: "December 2025",
+    color: "#86efac",
+    colorLight: "#16a34a",
+    award: null,
+    featured: false,
+  },
+  {
+    id: 6,
     title: "BloodInsights",
     subtitle: "AI Health Analysis Platform",
     description:
@@ -211,7 +242,7 @@ export const projects = [
     featured: false,
   },
   {
-    id: 6,
+    id: 7,
     title: "RealTMS",
     subtitle: "Real-Time Multimodal Translator",
     description:
