@@ -506,20 +506,6 @@ export default function TerminalHero() {
         </motion.div>
       </div>
 
-      {/* Scroll cue */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        onClick={scrollTo("#about")}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 transition-opacity hover:opacity-40"
-        style={{ color: "var(--text-subtle)" }}
-      >
-        <span className="font-mono text-[10px] uppercase" style={{ letterSpacing: "0.2em" }}>scroll</span>
-        <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}>
-          <ArrowDown className="w-3.5 h-3.5" />
-        </motion.div>
-      </motion.button>
     </section>
   );
 }
