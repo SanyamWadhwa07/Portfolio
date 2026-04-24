@@ -3,10 +3,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { personalInfo } from "@/lib/data";
-import { Mail, FileText, ArrowDown } from "lucide-react";
+import { Mail, FileText, ExternalLink } from "lucide-react";
 import CosmicSynapseCanvas from "@/components/ui/neurons-hero";
+import { useTab } from "@/contexts/TabContext";
 
-/* ─── Brand SVGs (lucide deprecated) ────────────────────────────── */
+/* ── Brand SVGs ─────────────────────────────────────────── */
 function GithubIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -22,11 +23,11 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
-/* ─── Name scramble ──────────────────────────────────────────────── */
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234%#$@!";
+/* ── Name scramble ──────────────────────────────────────── */
+const CHARS  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234%#$@!";
 const TARGET = "SANYAM WADHWA";
 
-function useScramble(target: string, delay = 500) {
+function useScramble(target: string, delay = 400) {
   const [display, setDisplay] = useState(target);
   const run = useCallback(() => {
     let frame = 0;
@@ -49,10 +50,10 @@ function useScramble(target: string, delay = 500) {
   return display;
 }
 
-/* ─── Role cycling ───────────────────────────────────────────────── */
+/* ── Role cycling ───────────────────────────────────────── */
 const ROLES = ["AI / ML Engineer", "Agentic Systems Builder", "Full-Stack Developer", "LLM Engineer"];
 
-/* ─── Code showcase ──────────────────────────────────────────────── */
+/* ── Code showcase ──────────────────────────────────────── */
 const SNIPPETS = [
   {
     id: "konta",
@@ -107,13 +108,10 @@ const SNIPPETS = [
   },
 ] as const;
 
-/* Simple keyword highlighter — pure, no side-effects */
 function HighlightedLine({ line, cssVar, lang }: { line: string; cssVar: string; lang: string }) {
   if (!line.trim()) return <>&nbsp;</>;
   const isComment = line.trimStart().startsWith("#") || line.trimStart().startsWith("//");
-  if (isComment) {
-    return <span style={{ color: "var(--text-subtle)", fontStyle: "italic" }}>{line}</span>;
-  }
+  if (isComment) return <span style={{ color: "var(--text-subtle)", fontStyle: "italic" }}>{line}</span>;
   const kw = lang === "TS"
     ? /\b(const|let|async|await|return|function|import|from|type|true|false|null)\b/
     : /\b(def|async|await|return|import|from|class|if|for|in|True|False|None)\b/;
@@ -132,85 +130,62 @@ function HighlightedLine({ line, cssVar, lang }: { line: string; cssVar: string;
 function CodeShowcase() {
   const [snippetIdx, setSnippetIdx] = useState(0);
   const [visibleCount, setVisibleCount] = useState(0);
-
   const snip = SNIPPETS[snippetIdx];
 
-  /* Reveal lines one by one */
   useEffect(() => {
     setVisibleCount(0);
     let count = 0;
-    const maxLines = SNIPPETS[snippetIdx].lines.length;
     const id = setInterval(() => {
       count++;
       setVisibleCount(count);
-      if (count >= maxLines) clearInterval(id);
+      if (count >= SNIPPETS[snippetIdx].lines.length) clearInterval(id);
     }, 290);
     return () => clearInterval(id);
   }, [snippetIdx]);
 
-  /* Auto-cycle after all lines shown + pause */
   useEffect(() => {
     if (visibleCount < snip.lines.length) return;
     const id = setTimeout(() => setSnippetIdx((i) => (i + 1) % SNIPPETS.length), 2600);
     return () => clearTimeout(id);
   }, [visibleCount, snip.lines.length]);
 
-  const color = `var(${snip.cssVar})`;
+  const color    = `var(${snip.cssVar})`;
   const colorDim = `color-mix(in srgb, var(${snip.cssVar}) 12%, transparent)`;
 
   return (
     <div className="monitor-card h-full flex flex-col">
       {/* Title bar */}
-      <div
-        className="flex items-center justify-between px-4 py-3 flex-shrink-0"
-        style={{ borderBottom: "1px solid var(--border-strong)" }}
-      >
+      <div className="flex items-center justify-between px-4 py-3 flex-shrink-0"
+        style={{ borderBottom: "1px solid var(--border-strong)" }}>
         <div className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#ff5f57" }} />
           <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#ffbd2e" }} />
           <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#28ca41" }} />
         </div>
-        <span
-          className="font-mono text-xs truncate px-3"
-          style={{ color: "var(--text-muted)" }}
-        >
+        <span className="font-mono text-xs truncate px-3" style={{ color: "var(--text-muted)" }}>
           {snip.file}
         </span>
-        <span
-          className="font-mono rounded px-1.5 py-0.5 flex-shrink-0"
-          style={{ fontSize: "0.58rem", color, background: colorDim, letterSpacing: "0.1em" }}
-        >
+        <span className="font-mono rounded px-1.5 py-0.5 flex-shrink-0"
+          style={{ fontSize: "0.58rem", color, background: colorDim, letterSpacing: "0.1em" }}>
           {snip.lang}
         </span>
       </div>
 
       {/* Code area */}
-      <div
-        className="flex-1 px-5 py-5 overflow-hidden"
-        style={{ fontFamily: "var(--font-mono)", fontSize: "0.73rem", lineHeight: 1.85 }}
-      >
+      <div className="flex-1 px-5 py-5 overflow-hidden"
+        style={{ fontFamily: "var(--font-mono)", fontSize: "0.73rem", lineHeight: 1.85 }}>
         <AnimatePresence initial={false}>
           {snip.lines.slice(0, visibleCount).map((line, i) => (
-            <motion.div
-              key={`${snippetIdx}-${i}`}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.15 }}
-              className="flex gap-4"
-            >
-              <span
-                className="select-none flex-shrink-0 text-right tabular-nums"
-                style={{ color: "var(--text-subtle)", minWidth: "1.2rem" }}
-              >
-                {i + 1}
-              </span>
+            <motion.div key={`${snippetIdx}-${i}`}
+              initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.15 }} className="flex gap-4">
+              <span className="select-none flex-shrink-0 text-right tabular-nums"
+                style={{ color: "var(--text-subtle)", minWidth: "1.2rem" }}>{i + 1}</span>
               <span style={{ color: "var(--text-muted)" }}>
                 <HighlightedLine line={line} cssVar={snip.cssVar} lang={snip.lang} />
                 {i === visibleCount - 1 && visibleCount < snip.lines.length && (
-                  <span
-                    className="animate-blink inline-block w-px h-[0.85em] rounded-sm ml-0.5 align-middle"
-                    style={{ background: color }}
-                  />
+                  <span className="animate-blink inline-block w-px h-[0.85em] rounded-sm ml-0.5 align-middle"
+                    style={{ background: color }} />
                 )}
               </span>
             </motion.div>
@@ -218,34 +193,22 @@ function CodeShowcase() {
         </AnimatePresence>
       </div>
 
-      {/* Project tab strip */}
-      <div
-        className="flex items-center px-4 py-3 gap-4 flex-shrink-0"
-        style={{ borderTop: "1px solid var(--border)" }}
-      >
+      {/* Tab strip */}
+      <div className="flex items-center px-4 py-3 gap-4 flex-shrink-0"
+        style={{ borderTop: "1px solid var(--border)" }}>
         {SNIPPETS.map((s, i) => {
           const sc = `var(${s.cssVar})`;
           return (
-            <button
-              key={s.id}
-              onClick={() => setSnippetIdx(i)}
+            <button key={s.id} onClick={() => setSnippetIdx(i)}
               className="flex items-center gap-1.5 font-mono transition-opacity"
-              style={{
-                fontSize: "0.6rem",
-                opacity: i === snippetIdx ? 1 : 0.32,
-                color: sc,
-                letterSpacing: "0.1em",
-              }}
-            >
+              style={{ fontSize: "0.6rem", opacity: i === snippetIdx ? 1 : 0.32, color: sc, letterSpacing: "0.1em" }}>
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: sc }} />
               {s.id}
             </button>
           );
         })}
-        <span
-          className="ml-auto font-mono rounded px-1.5 py-0.5 flex-shrink-0"
-          style={{ fontSize: "0.58rem", color, background: colorDim, letterSpacing: "0.08em" }}
-        >
+        <span className="ml-auto font-mono rounded px-1.5 py-0.5 flex-shrink-0"
+          style={{ fontSize: "0.58rem", color, background: colorDim, letterSpacing: "0.08em" }}>
           {snip.badge}
         </span>
       </div>
@@ -253,11 +216,12 @@ function CodeShowcase() {
   );
 }
 
-/* ─── Hero ───────────────────────────────────────────────────────── */
+/* ── Hero ───────────────────────────────────────────────── */
 export default function TerminalHero() {
   const name = useScramble(TARGET, 400);
-  const [roleIdx, setRoleIdx] = useState(0);
+  const [roleIdx,     setRoleIdx]     = useState(0);
   const [roleVisible, setRoleVisible] = useState(true);
+  const { setActiveTab } = useTab();
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -271,13 +235,10 @@ export default function TerminalHero() {
     return () => clearInterval(id);
   }, []);
 
-  const scrollTo = (id: string) => () =>
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-
   const socials = [
-    { icon: GithubIcon, href: personalInfo.github, label: "GitHub" },
-    { icon: LinkedinIcon, href: personalInfo.linkedin, label: "LinkedIn" },
-    { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
+    { icon: GithubIcon,  href: personalInfo.github,              label: "GitHub"   },
+    { icon: LinkedinIcon,href: personalInfo.linkedin,            label: "LinkedIn" },
+    { icon: Mail,        href: `mailto:${personalInfo.email}`,   label: "Email"    },
   ];
 
   return (
@@ -286,51 +247,37 @@ export default function TerminalHero() {
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       style={{ background: "var(--bg)" }}
     >
-      {/* Neural canvas — opacity controlled by CSS (.hero-canvas / .dark .hero-canvas) */}
+      {/* Neural canvas */}
       <div className="hero-canvas absolute inset-0 pointer-events-none">
         <CosmicSynapseCanvas />
       </div>
 
-      {/* Text-protection gradient: solid bg on left, fades right so canvas shows */}
-      <div
-        className="absolute inset-0 pointer-events-none z-[1]"
-        style={{
-          background: "linear-gradient(105deg, var(--bg) 25%, color-mix(in srgb, var(--bg) 50%, transparent) 50%, transparent 70%)",
-        }}
-      />
+      {/* Text-protection gradient */}
+      <div className="absolute inset-0 pointer-events-none z-[1]" style={{
+        background: "linear-gradient(105deg, var(--bg) 28%, color-mix(in srgb, var(--bg) 45%, transparent) 52%, transparent 72%)",
+      }} />
 
-      {/* Top accent line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)" }}
-      />
-      <div
-        className="absolute top-0 inset-x-0 h-64 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 70% 100% at 50% 0%, var(--accent-dim) 0%, transparent 100%)" }}
-      />
+      {/* Top accent glow */}
+      <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)" }} />
+      <div className="absolute top-0 inset-x-0 h-56 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 60% 100% at 50% 0%, var(--accent-dim), transparent)" }} />
 
-      <div className="relative z-10" style={{ minHeight: "100vh", display: "flex", alignItems: "center" }}>
-        <div className="section-container w-full">
-        <div style={{ maxWidth: "clamp(460px, 48%, 680px)" }}>
+      {/* Main content */}
+      <div className="relative z-10 w-full section-container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16 items-center min-h-screen py-28">
 
-          {/* Left */}
+          {/* ── Left column ── */}
           <div className="flex flex-col justify-center">
-            {/* Status */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8"
-            >
-              <span
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-xs"
+
+            {/* Status badge */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }} className="mb-7">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-xs"
                 style={{
-                  background: "var(--green-dim)",
-                  color: "var(--green)",
-                  border: "1px solid rgba(52,211,153,0.18)",
-                  letterSpacing: "0.12em",
-                }}
-              >
+                  background: "var(--green-dim)", color: "var(--green)",
+                  border: "1px solid rgba(52,211,153,0.18)", letterSpacing: "0.12em",
+                }}>
                 <span className="h-1.5 w-1.5 rounded-full animate-pulse-dot" style={{ background: "var(--green)" }} />
                 AVAILABLE &middot; TIET &apos;27 &middot; PATIALA
               </span>
@@ -338,78 +285,66 @@ export default function TerminalHero() {
 
             {/* Name */}
             <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.25, delay: 0.15 }}
-              className="font-display font-bold leading-none mb-6"
-              style={{ fontSize: "clamp(3rem, 9vw, 8rem)", color: "var(--text)", letterSpacing: "-0.04em" }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="font-display font-bold leading-[0.95] mb-5"
+              style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)", color: "var(--text)", letterSpacing: "-0.035em" }}
               suppressHydrationWarning
             >
               {name}
             </motion.h1>
 
-            {/* Role */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex items-center gap-3 mb-5"
-            >
-              <span className="h-px w-6 flex-shrink-0" style={{ background: "var(--accent)" }} />
-              <span
-                className="font-mono text-sm uppercase transition-opacity duration-300"
-                style={{ color: "var(--accent)", opacity: roleVisible ? 1 : 0, letterSpacing: "0.16em" }}
-              >
+            {/* Cycling role */}
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.35 }}
+              className="flex items-center gap-3 mb-5">
+              <span className="h-px w-5 flex-shrink-0" style={{ background: "var(--accent)" }} />
+              <span className="font-mono text-xs uppercase transition-opacity duration-300"
+                style={{ color: "var(--accent)", opacity: roleVisible ? 1 : 0, letterSpacing: "0.16em" }}>
                 {ROLES[roleIdx]}
               </span>
             </motion.div>
 
             {/* Tagline */}
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-              className="text-base leading-relaxed mb-10"
-              style={{ color: "var(--text-muted)", maxWidth: "460px" }}
-            >
-              {personalInfo.tagline} Agentic AI, LLM optimization, multi-agent
-              architectures, shipped and working in production.
+            <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.5 }}
+              className="leading-relaxed mb-8"
+              style={{ fontSize: "0.975rem", color: "var(--text-muted)", maxWidth: "42ch" }}>
+              {personalInfo.tagline}
             </motion.p>
 
             {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-4 mb-12"
-            >
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.65 }}
+              className="flex flex-wrap items-center gap-3 mb-10">
+
               <button
-                onClick={scrollTo("#projects")}
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
-                style={{ background: "var(--accent)", color: "var(--bg)" }}
+                onClick={() => setActiveTab("projects")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-px active:scale-95"
+                style={{ background: "var(--accent)", color: "var(--bg)", letterSpacing: "0.01em" }}
               >
-                View Projects <ArrowDown className="w-4 h-4" />
+                <ExternalLink className="w-3.5 h-3.5" />
+                View Projects
               </button>
 
               <a
                 href={personalInfo.resumeUrl}
                 download="Sanyam_Wadhwa_Resume.pdf"
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-px"
                 style={{ color: "var(--text)", border: "1px solid var(--border-strong)" }}
               >
-                <FileText className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <FileText className="w-3.5 h-3.5" style={{ color: "var(--text-muted)" }} />
                 Resume
               </a>
 
-              <div className="hidden sm:flex items-center gap-1 pl-4" style={{ borderLeft: "1px solid var(--border-strong)" }}>
+              {/* Social icons */}
+              <div className="hidden sm:flex items-center gap-0.5 pl-3"
+                style={{ borderLeft: "1px solid var(--border-strong)" }}>
                 {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
+                  <a key={s.label} href={s.href}
                     target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    className="p-2.5 rounded-lg transition-all duration-150"
+                    rel="noopener noreferrer" aria-label={s.label}
+                    className="p-2 rounded-lg transition-all duration-150"
                     style={{ color: "var(--text-muted)" }}
                     onMouseEnter={(e) => {
                       const el = e.currentTarget as HTMLElement;
@@ -420,8 +355,7 @@ export default function TerminalHero() {
                       const el = e.currentTarget as HTMLElement;
                       el.style.color = "var(--text-muted)";
                       el.style.background = "transparent";
-                    }}
-                  >
+                    }}>
                     <s.icon className="w-4 h-4" />
                   </a>
                 ))}
@@ -429,83 +363,60 @@ export default function TerminalHero() {
             </motion.div>
 
             {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-              className="flex items-center gap-8"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ duration: 0.45, delay: 0.82 }}
+              className="flex items-center gap-6">
               {[
-                { v: "6+", l: "Projects" },
-                { v: "2", l: "Hackathon Wins" },
-                { v: "\u201927", l: "Graduating" },
+                { v: "6+",   l: "Projects"       },
+                { v: "2",    l: "Hackathon Wins"  },
+                { v: "'27",  l: "Graduating"      },
               ].map((s, i) => (
-                <div key={s.l} className="flex items-center gap-3">
-                  {i > 0 && <span className="h-4 w-px hidden sm:block" style={{ background: "var(--border-strong)" }} />}
+                <div key={s.l} className="flex items-center gap-6">
+                  {i > 0 && <span className="h-5 w-px hidden sm:block" style={{ background: "var(--border-strong)" }} />}
                   <div>
-                    <div className="font-display font-bold text-2xl leading-none" style={{ color: "var(--text)" }}>{s.v}</div>
-                    <div className="font-mono text-xs mt-0.5 uppercase" style={{ color: "var(--text-muted)", letterSpacing: "0.12em" }}>{s.l}</div>
+                    <div className="font-display font-bold text-xl leading-none" style={{ color: "var(--text)" }}>{s.v}</div>
+                    <div className="font-mono text-[0.65rem] mt-1 uppercase"
+                      style={{ color: "var(--text-subtle)", letterSpacing: "0.12em" }}>{s.l}</div>
                   </div>
                 </div>
               ))}
             </motion.div>
           </div>
-        </div>
-        </div>
 
-        {/* Right: Code Showcase — absolutely positioned, fully decoupled from left column */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="hidden lg:block"
-          style={{
-            position: "absolute",
-            top: "50%",
-            right: "clamp(32px, 5vw, 80px)",
-            transform: "translateY(-50%)",
-            perspective: "1200px",
-            willChange: "opacity",
-            zIndex: 10,
-          }}
-        >
+          {/* ── Right column — code showcase ── */}
           <motion.div
-            whileHover={{ rotateY: -2, rotateX: 0, transition: { duration: 0.45, ease: "easeOut" } }}
-            style={{
-              width: "clamp(380px, 32vw, 500px)",
-              height: "clamp(420px, 46vh, 530px)",
-              transform: "perspective(1200px) rotateY(-10deg) rotateX(3deg)",
-              transformStyle: "preserve-3d",
-              filter: "drop-shadow(0 28px 55px rgba(0,0,0,0.38)) drop-shadow(0 0 36px rgba(0,232,198,0.07))",
-              cursor: "default",
-              willChange: "transform",
-            }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="hidden lg:flex items-center justify-center"
           >
-            {/* Right depth edge */}
             <div
-              aria-hidden
               style={{
-                position: "absolute",
-                top: 6, right: -10, bottom: -6, width: 10,
-                background: "linear-gradient(to right, rgba(0,232,198,0.05), rgba(0,0,0,0.28))",
+                width: "100%",
+                maxWidth: 500,
+                height: "clamp(400px, 44vh, 500px)",
+                transform: "perspective(1100px) rotateY(-8deg) rotateX(2deg)",
+                transformStyle: "preserve-3d",
+                filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.35)) drop-shadow(0 0 30px rgba(0,232,198,0.06))",
+                willChange: "transform",
+              }}
+            >
+              {/* Depth edges */}
+              <div aria-hidden style={{
+                position: "absolute", top: 5, right: -9, bottom: -5, width: 9,
+                background: "linear-gradient(to right, rgba(0,232,198,0.04), rgba(0,0,0,0.25))",
                 borderRadius: "0 4px 4px 0",
-              }}
-            />
-            {/* Bottom depth edge */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                bottom: -8, left: 6, right: -4, height: 8,
-                background: "linear-gradient(to bottom, rgba(0,0,0,0.32), rgba(0,0,0,0.08))",
+              }} />
+              <div aria-hidden style={{
+                position: "absolute", bottom: -7, left: 5, right: -3, height: 7,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.06))",
                 borderRadius: "0 0 4px 4px",
-              }}
-            />
-            <CodeShowcase />
+              }} />
+              <CodeShowcase />
+            </div>
           </motion.div>
-        </motion.div>
-      </div>
 
+        </div>
+      </div>
     </section>
   );
 }

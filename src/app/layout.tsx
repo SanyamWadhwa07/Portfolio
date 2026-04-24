@@ -8,6 +8,7 @@ import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Footer from "@/components/ui/Footer";
 import { TabProvider } from "@/contexts/TabContext";
+import PageLoader from "@/components/ui/PageLoader";
 
 /* Inter — highly legible, WCAG-friendly, excellent at all sizes */
 const inter = Inter({
@@ -59,6 +60,7 @@ export default function RootLayout({
         className={`${inter.variable} ${ibmPlexMono.variable} ${syne.variable} font-sans antialiased`}
       >
         <ThemeProvider>
+          <PageLoader />
           <TabProvider>
             <SmoothScroll>
               <CustomCursor />
