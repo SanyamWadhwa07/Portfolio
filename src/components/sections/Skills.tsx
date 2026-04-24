@@ -23,8 +23,8 @@ function MarqueeRow({
   index: number;
 }) {
   const items   = skills[cat.key];
-  const doubled = [...items, ...items];          // seamless loop
-  const dur     = Math.max(18, items.length * 2.2); // speed scales with count
+  const doubled = [...items, ...items];
+  const dur     = Math.max(18, items.length * 2.2);
   const [paused, setPaused] = useState(false);
 
   return (
