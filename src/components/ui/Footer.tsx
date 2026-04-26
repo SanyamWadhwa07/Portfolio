@@ -82,7 +82,7 @@ export default function Footer() {
             style={{ color: "var(--text-subtle)", letterSpacing: "0.12em" }}
           >
             <ArrowUp className="w-3.5 h-3.5" />
-            Top
+            Home
           </motion.button>
         </div>
       </div>

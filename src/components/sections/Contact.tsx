@@ -59,7 +59,7 @@ export default function Contact() {
           <span className="h-px flex-1" style={{ background: "var(--border)" }} />
         </motion.div>
 
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-16 items-start">
+        <div className="grid md:grid-cols-[2fr_3fr] gap-10 md:gap-16 items-start">
           {/* Left */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}

@@ -9,6 +9,7 @@ import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Achievements from "@/components/sections/Achievements";
 import Contact from "@/components/sections/Contact";
+import Footer from "@/components/ui/Footer";
 
 const variants = {
   initial: { opacity: 0, y: 18 },
@@ -28,22 +29,25 @@ export default function PortfolioTabs() {
   const { activeTab } = useTab();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={activeTab}
-        variants={variants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        {activeTab === "home"         && <TerminalHero />}
-        {activeTab === "about"        && <About />}
-        {activeTab === "skills"       && <Skills />}
-        {activeTab === "projects"     && <Projects />}
-        {activeTab === "experience"   && <Experience />}
-        {activeTab === "achievements" && <Achievements />}
-        {activeTab === "contact"      && <Contact />}
-      </motion.div>
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={activeTab}
+          variants={variants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          {activeTab === "home"         && <TerminalHero />}
+          {activeTab === "about"        && <About />}
+          {activeTab === "skills"       && <Skills />}
+          {activeTab === "projects"     && <Projects />}
+          {activeTab === "experience"   && <Experience />}
+          {activeTab === "achievements" && <Achievements />}
+          {activeTab === "contact"      && <Contact />}
+        </motion.div>
+      </AnimatePresence>
+      {activeTab !== "home" && <Footer />}
+    </>
   );
 }

@@ -22,7 +22,7 @@ export default function About() {
           <span className="h-px flex-1" style={{ background: "var(--border)" }} />
         </motion.div>
 
-        <div className="grid lg:grid-cols-[3fr_2fr] gap-14 items-start">
+        <div className="grid md:grid-cols-[3fr_2fr] gap-10 md:gap-14 items-start">
           {/* Bio */}
           <div>
             <motion.h2

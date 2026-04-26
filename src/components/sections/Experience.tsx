@@ -45,7 +45,7 @@ export default function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="grid sm:grid-cols-[220px_1fr] gap-6 sm:gap-12 py-10"
+              className="grid sm:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr] gap-6 sm:gap-8 lg:gap-12 py-10"
               style={{
                 borderTop: "1px solid var(--border)",
               }}

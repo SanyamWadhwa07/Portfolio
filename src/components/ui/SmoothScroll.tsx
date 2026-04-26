@@ -28,6 +28,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
     raf = requestAnimationFrame(loop);
 
+    /* Allow modal overlays to pause/resume Lenis */
+    const onStop  = () => lenis.stop();
+    const onStart = () => lenis.start();
+    window.addEventListener("lenis:stop",  onStop);
+    window.addEventListener("lenis:start", onStart);
+
     /* Allow anchor links (navbar) to work with Lenis */
     const handleAnchor = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("a[href^='#']");
@@ -45,6 +51,8 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       cancelAnimationFrame(raf);
       lenis.destroy();
       document.removeEventListener("click", handleAnchor);
+      window.removeEventListener("lenis:stop",  onStop);
+      window.removeEventListener("lenis:start", onStart);
     };
   }, []);
 

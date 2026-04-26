@@ -55,6 +55,18 @@ export const experiences = [
     ],
     tech: ["Flask", "MySQL", "Jinja", "Python", "Multithreading"],
   },
+  {
+    id: 3,
+    company: "Evex Fitness",
+    role: "Chief Technical Officer",
+    period: "May 2024 to October 2024",
+    location: "Patiala, Punjab",
+    description: [
+      "Developed a Flask-based platform with HTML/CSS, improving page load speed by 35% and enhancing accessibility.",
+      "Integrated AI-driven form detection using Mediapipe, automating posture analysis and reducing manual corrections by 70%.",
+    ],
+    tech: ["Flask", "Python", "Mediapipe", "HTML/CSS"],
+  },
 ];
 
 export const projects = [

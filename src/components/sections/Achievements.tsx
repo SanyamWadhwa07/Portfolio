@@ -46,7 +46,7 @@ export default function Achievements() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="rounded-2xl p-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-1"
+              className="rounded-2xl p-5 sm:p-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-1"
               style={{
                 background: "var(--surface)",
                 border: "1px solid rgba(245,158,11,0.2)",

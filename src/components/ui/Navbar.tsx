@@ -132,22 +132,27 @@ export default function Navbar() {
             style={{ background: "rgba(8,9,14,0.97)", backdropFilter: "blur(24px)" }}
           >
             <div className="section-container py-10 flex flex-col gap-2">
-              {TABS.map((tab, i) => (
-                <motion.button
-                  key={tab.id}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  onClick={() => navigate(tab.id)}
-                  className="text-left py-3 font-display font-semibold text-xl transition-colors hover:opacity-70"
-                  style={{
-                    color:        activeTab === tab.id ? "var(--accent)" : "var(--text)",
-                    borderBottom: "1px solid var(--border)",
-                  }}
-                >
-                  {tab.name}
-                </motion.button>
-              ))}
+              {TABS.map((tab, i) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <motion.button
+                    key={tab.id}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => navigate(tab.id)}
+                    className="text-left py-3 px-3 font-display font-semibold text-xl transition-all rounded-lg"
+                    style={{
+                      color:        isActive ? "var(--accent)" : "var(--text)",
+                      borderBottom: "1px solid var(--border)",
+                      borderLeft:   isActive ? "2px solid var(--accent)" : "2px solid transparent",
+                      background:   isActive ? "var(--accent-dim)" : "transparent",
+                    }}
+                  >
+                    {tab.name}
+                  </motion.button>
+                );
+              })}
             </div>
           </motion.div>
         )}

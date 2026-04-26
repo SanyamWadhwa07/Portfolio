@@ -5,8 +5,6 @@ import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
 import Navbar from "@/components/ui/Navbar";
-import ScrollProgress from "@/components/ui/ScrollProgress";
-import Footer from "@/components/ui/Footer";
 import { TabProvider } from "@/contexts/TabContext";
 import PageLoader from "@/components/ui/PageLoader";
 
@@ -64,10 +62,8 @@ export default function RootLayout({
           <TabProvider>
             <SmoothScroll>
               <CustomCursor />
-              <ScrollProgress />
               <Navbar />
               <main>{children}</main>
-              <Footer />
             </SmoothScroll>
           </TabProvider>
         </ThemeProvider>

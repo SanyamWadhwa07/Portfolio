@@ -265,7 +265,7 @@ export default function TerminalHero() {
 
       {/* Main content */}
       <div className="relative z-10 w-full section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16 items-center min-h-screen py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12 xl:gap-16 items-center min-h-screen py-24 lg:py-28">
 
           {/* ── Left column ── */}
           <div className="flex flex-col justify-center">
@@ -365,7 +365,7 @@ export default function TerminalHero() {
             {/* Stats */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: 0.82 }}
-              className="flex items-center gap-6">
+              className="flex flex-wrap items-center gap-4 sm:gap-6">
               {[
                 { v: "6+",   l: "Projects"       },
                 { v: "2",    l: "Hackathon Wins"  },
