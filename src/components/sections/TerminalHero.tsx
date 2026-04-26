@@ -291,7 +291,7 @@ export default function TerminalHero() {
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.35 }}
               className="flex items-center gap-3 mb-5">
-              <span className="h-px w-5 flex-shrink-0" style={{ background: "var(--accent)" }} />
+              <span className="h-1.5 w-1.5 rounded-full flex-shrink-0 animate-pulse-dot" style={{ background: "var(--accent)" }} />
               <span className="font-mono text-xs uppercase transition-opacity duration-300"
                 style={{ color: "var(--accent)", opacity: roleVisible ? 1 : 0, letterSpacing: "0.16em" }}>
                 {ROLES[roleIdx]}
