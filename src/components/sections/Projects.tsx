@@ -171,10 +171,10 @@ function GarudaAIVisual({ color }: { color: string }) {
 
 function CogniRecycleVisual({ color }: { color: string }) {
   const items = [
-    { label:"♻", c:"#34d399", dest:"↑ Recycle" },
+    { label:"♻", c:color,     dest:"↑ Recycle" },
     { label:"B",  c:"#fbbf24", dest:"→ Organic" },
     { label:"!",  c:"#f87171", dest:"↓ Hazard"  },
-    { label:"~",  c:color,     dest:"→ Landfill" },
+    { label:"~",  c:"#94a3b8", dest:"→ Landfill" },
   ];
   return (
     <svg viewBox="0 0 200 118" className="w-full h-full">
