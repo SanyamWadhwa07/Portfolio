@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { personalInfo } from "@/lib/data";
 import { Mail, FileText, ExternalLink } from "lucide-react";
@@ -23,31 +23,33 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
-/* ── Name scramble ──────────────────────────────────────── */
-const CHARS  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234%#$@!";
-const TARGET = "SANYAM WADHWA";
+/* ── Name letter-reveal ─────────────────────────────────── */
+const NAME_WORDS = ["SANYAM", "WADHWA"];
 
-function useScramble(target: string, delay = 400) {
-  const [display, setDisplay] = useState(target);
-  const run = useCallback(() => {
-    let frame = 0;
-    const max = target.length * 7;
-    const tick = setInterval(() => {
-      setDisplay(
-        target.split("").map((c, i) =>
-          c === " " ? " " : i < frame / 7 ? c : CHARS[Math.floor(Math.random() * CHARS.length)]
-        ).join("")
-      );
-      frame++;
-      if (frame > max) clearInterval(tick);
-    }, 38);
-    return () => clearInterval(tick);
-  }, [target]);
-  useEffect(() => {
-    const t = setTimeout(run, delay);
-    return () => clearTimeout(t);
-  }, [run, delay]);
-  return display;
+function NameReveal() {
+  return (
+    <div className="font-display font-bold leading-[0.92] mb-5 overflow-hidden"
+      style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)", color: "var(--text)", letterSpacing: "-0.035em" }}>
+      {NAME_WORDS.map((word, wi) => (
+        <div key={wi} className="overflow-hidden block">
+          {word.split("").map((char, ci) => {
+            const delay = 0.12 + wi * 0.18 + ci * 0.055;
+            return (
+              <motion.span
+                key={ci}
+                initial={{ y: "105%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+                style={{ display: "inline-block" }}
+              >
+                {char}
+              </motion.span>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 /* ── Role cycling ───────────────────────────────────────── */
@@ -218,7 +220,6 @@ function CodeShowcase() {
 
 /* ── Hero ───────────────────────────────────────────────── */
 export default function TerminalHero() {
-  const name = useScramble(TARGET, 400);
   const [roleIdx,     setRoleIdx]     = useState(0);
   const [roleVisible, setRoleVisible] = useState(true);
   const { setActiveTab } = useTab();
@@ -284,15 +285,7 @@ export default function TerminalHero() {
             </motion.div>
 
             {/* Name */}
-            <motion.h1
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="font-display font-bold leading-[0.95] mb-5"
-              style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)", color: "var(--text)", letterSpacing: "-0.035em" }}
-              suppressHydrationWarning
-            >
-              {name}
-            </motion.h1>
+            <NameReveal />
 
             {/* Cycling role */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
