@@ -479,6 +479,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       style={{ background: "rgba(0,0,0,0.72)", backdropFilter:"blur(8px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
     >
       <motion.div
         initial={{ opacity: 0, y: 60, scale: 0.97 }}
@@ -489,11 +490,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         style={{
           background:"var(--bg)",
           border:"1px solid var(--border-strong)",
-          maxHeight:"92vh",
+          maxHeight:"96vh",
           overflowY:"auto",
           WebkitOverflowScrolling:"touch",
+          touchAction:"pan-y",
         }}
         onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
       >
         {/* Drag handle (mobile) */}
         <div className="sm:hidden flex justify-center pt-3 pb-1">
